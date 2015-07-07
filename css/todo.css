@@ -1,0 +1,152 @@
+
+.f24 {
+  font-size: 24px;
+}
+
+body {
+  background-color: #eee;
+  width: 520px;
+  margin: 0 auto;
+  font-family: "微软雅黑";
+  font-size: 14px;
+  line-height: 1.4em;
+  position: relative;
+}
+
+.todoApp {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.content {
+  width: 480px;
+}
+.title {
+  text-align: center;
+  font-size: 100%;
+}
+
+.create-todos {
+  font-style: inherit;
+  font-weight: inherit;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+}
+.new-todo {
+  font-size: 24px;
+  width: 465px;
+  height: 100%;
+  padding: 6px;
+  border: 1px solid #999;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  position: relative;
+  padding: 15px 20px 15px 0;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+#todo-list .done .todo-content {
+  text-decoration: line-through;
+  color: #777;
+}
+
+.todo-destroy {
+  position: absolute;
+  right: 0px;
+  top: 16px;
+  display: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background: url(destroy.png) no-repeat 0 0;
+}
+
+.todo-list li:hover .todo-destroy {
+  display: block;
+}
+
+.todo-list li .todo-destroy:hover {
+  background: url(destroy.png) no-repeat 0 -20px;
+}
+
+#todo-stats {
+  height: 36px;
+  margin-top: 10px;
+  background-color: #F4FCE8;
+  padding: 0 20px;
+  line-height: 36px;
+  border-top: 1px solid #ededed;
+  border-bottom-right-radius: 5px;
+}
+
+#todo-stats .todo-count {
+  float: left;
+}
+#todo-stats .todo-clear {
+  margin-left: 200px;
+}
+
+#todo-stats .todo-clear a {
+  text-decoration: none;
+  color: #000;
+  border: 1px solid #ccc;
+  background-color: #DBE2D0;
+  border-radius: 10px;
+  padding: 0 6px;
+}
+.edit {
+  display: none;
+}
+
+
+#todoApp .todo-list .editing {
+  padding: 0;
+  border-bottom: 0;
+}
+
+#todoApp .todo-list .editing .todo .check {
+  display: none;
+}
+
+#todoApp .todo-list .editing .todo-content {
+  display: none;
+}
+
+#todoApp .todo-list .editing .todo-destroy {
+  display: none !important;
+}
+
+#todoApp .todo-list .editing .edit {
+  display: block;
+  width: 100%;
+}
+
+#todoApp .todo-list .editing .edit input {
+  font-size: 24px;
+  padding: 5px;
+  width: 97%;
+}
+
+
+.introduce {
+  margin-top: 70px;
+  text-align: center;
+  line-height: 36px;
+}
+
+.introduce .about {
+  text-decoration: underline;
+}
+
+
