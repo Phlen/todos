@@ -3,7 +3,7 @@
 // Copyright (c) 2010, Robert Kieffer, http://broofa.com
 // Available under MIT license (http://en.wikipedia.org/wiki/MIT_License)
 
-(function() {
+(function () {
   // Private methods and state
 
   // Get platform info but don't go crazy trying to recognize everything
@@ -11,7 +11,7 @@
   var platform = 'unknown platform', ua = navigator.userAgent;
 
   // Detect OS
-  var oses = ['Windows','iPhone OS','(Intel |PPC )?Mac OS X','Linux'].join('|');
+  var oses = ['Windows', 'iPhone OS', '(Intel |PPC )?Mac OS X', 'Linux'].join('|');
   var pOS = new RegExp('((' + oses + ') [^ \);]*)').test(ua) ? RegExp.$1 : null;
   if (!pOS) pOS = new RegExp('((' + oses + ')[^ \);]*)').test(ua) ? RegExp.$1 : null;
 
@@ -21,16 +21,16 @@
   // Detect version
   var vre = new RegExp('(Version|' + pName + ')[ \/]([^ ;]*)');
   var pVersion = (pName && vre.test(ua)) ? RegExp.$2 : null;
-  var platform = (pOS && pName && pVersion) ? pName + ' '  + pVersion + ' on ' + pOS : 'unknown platform';
+  var platform = (pOS && pName && pVersion) ? pName + ' ' + pVersion + ' on ' + pOS : 'unknown platform';
 
   /**
-  * A smattering of methods that are needed to implement the JSLitmus testbed.
-  */
+   * A smattering of methods that are needed to implement the JSLitmus testbed.
+   */
   var jsl = {
     /**
-    * Enhanced version of escape()
-    */
-    escape: function(s) {
+     * Enhanced version of escape()
+     */
+    escape: function (s) {
       s = s.replace(/,/g, '\\,');
       s = escape(s);
       s = s.replace(/\+/g, '%2b');
@@ -39,55 +39,57 @@
     },
 
     /**
-    * Get an element by ID.
-    */
-    $: function(id) {
+     * Get an element by ID.
+     */
+    $: function (id) {
       return document.getElementById(id);
     },
 
     /**
-    * Null function
-    */
-    F: function() {},
+     * Null function
+     */
+    F: function () {
+    },
 
     /**
-    * Set the status shown in the UI
-    */
-    status: function(msg) {
+     * Set the status shown in the UI
+     */
+    status: function (msg) {
       var el = jsl.$('jsl_status');
       if (el) el.innerHTML = msg || '';
     },
 
     /**
-    * Convert a number to an abbreviated string like, "15K" or "10M"
-    */
-    toLabel: function(n) {
+     * Convert a number to an abbreviated string like, "15K" or "10M"
+     */
+    toLabel: function (n) {
       if (n == Infinity) {
         return 'Infinity';
       } else if (n > 1e9) {
-        n = Math.round(n/1e8);
-        return n/10 + 'B';
+        n = Math.round(n / 1e8);
+        return n / 10 + 'B';
       } else if (n > 1e6) {
-        n = Math.round(n/1e5);
-        return n/10 + 'M';
+        n = Math.round(n / 1e5);
+        return n / 10 + 'M';
       } else if (n > 1e3) {
-        n = Math.round(n/1e2);
-        return n/10 + 'K';
+        n = Math.round(n / 1e2);
+        return n / 10 + 'K';
       }
       return n;
     },
 
     /**
-    * Copy properties from src to dst
-    */
-    extend: function(dst, src) {
-      for (var k in src) dst[k] = src[k]; return dst;
+     * Copy properties from src to dst
+     */
+    extend: function (dst, src) {
+      for (var k in src) dst[k] = src[k];
+      return dst;
     },
 
     /**
-    * Like Array.join(), but for the key-value pairs in an object
-    */
-    join: function(o, delimit1, delimit2) {
+     * Like Array.join(), but for the key-value pairs in an object
+     */
+    join: function (o, delimit1, delimit2) {
       if (o.join) return o.join(delimit1);  // If it's an array
       var pairs = [];
       for (var k in o) pairs.push(k + delimit1 + o[k]);
@@ -95,9 +97,9 @@
     },
 
     /**
-    * Array#indexOf isn't supported in IE, so we use this as a cross-browser solution
-    */
-    indexOf: function(arr, o) {
+     * Array#indexOf isn't supported in IE, so we use this as a cross-browser solution
+     */
+    indexOf: function (arr, o) {
       if (arr.indexOf) return arr.indexOf(o);
       for (var i = 0; i < this.length; i++) if (arr[i] === o) return i;
       return -1;
@@ -105,11 +107,11 @@
   };
 
   /**
-  * Test manages a single test (created with
-  * JSLitmus.test())
-  *
-  * @private
-  */
+   * Test manages a single test (created with
+   * JSLitmus.test())
+   *
+   * @private
+   */
   var Test = function (name, f) {
     if (!f) throw new Error('Undefined test function');
     if (!/function[^\(]*\(([^,\)]*)/.test(f.toString())) {
@@ -123,16 +125,18 @@
   jsl.extend(Test, /** @lends Test */ {
     /** Calibration tests for establishing iteration loop overhead */
     CALIBRATIONS: [
-      new Test('calibrating loop', function(count) {while (count--);}),
+      new Test('calibrating loop', function (count) {
+        while (count--);
+      }),
       new Test('calibrating function', jsl.F)
     ],
 
     /**
-    * Run calibration tests.  Returns true if calibrations are not yet
-    * complete (in which case calling code should run the tests yet again).
-    * onCalibrated - Callback to invoke when calibrations have finished
-    */
-    calibrate: function(onCalibrated) {
+     * Run calibration tests.  Returns true if calibrations are not yet
+     * complete (in which case calling code should run the tests yet again).
+     * onCalibrated - Callback to invoke when calibrations have finished
+     */
+    calibrate: function (onCalibrated) {
       for (var i = 0; i < Test.CALIBRATIONS.length; i++) {
         var cal = Test.CALIBRATIONS[i];
         if (cal.running) return true;
@@ -165,7 +169,7 @@
     /**
      * Reset test state
      */
-    reset: function() {
+    reset: function () {
       delete this.count;
       delete this.time;
       delete this.running;
@@ -173,26 +177,30 @@
     },
 
     /**
-    * Run the test (in a timeout). We use a timeout to make sure the browser
-    * has a chance to finish rendering any UI changes we've made, like
-    * updating the status message.
-    */
-    run: function(count) {
+     * Run the test (in a timeout). We use a timeout to make sure the browser
+     * has a chance to finish rendering any UI changes we've made, like
+     * updating the status message.
+     */
+    run: function (count) {
       count = count || this.INIT_COUNT;
       jsl.status(this.name + ' x ' + count);
       this.running = true;
       var me = this;
-      setTimeout(function() {me._run(count);}, 200);
+      setTimeout(function () {
+        me._run(count);
+      }, 200);
     },
 
     /**
      * The nuts and bolts code that actually runs a test
      */
-    _run: function(count) {
+    _run: function (count) {
       var me = this;
 
       // Make sure calibration tests have run
-      if (!me.isCalibration && Test.calibrate(function() {me.run(count);})) return;
+      if (!me.isCalibration && Test.calibrate(function () {
+        me.run(count);
+      })) return;
       this.error = null;
 
       try {
@@ -211,11 +219,11 @@
         }
 
         // Get time test took (in secs)
-        this.time = Math.max(1,new Date() - start)/1000;
+        this.time = Math.max(1, new Date() - start) / 1000;
 
         // Store iteration count and per-operation time taken
         this.count = count;
-        this.period = this.time/count;
+        this.period = this.time / count;
 
         // Do we need to do another run?
         this.running = this.time <= this.MIN_TIME;
@@ -223,8 +231,8 @@
         // ... if so, compute how many times we should iterate
         if (this.running) {
           // Bump the count to the nearest power of 2
-          var x = this.MIN_TIME/this.time;
-          var pow = Math.pow(2, Math.max(1, Math.ceil(Math.log(x)/Math.log(2))));
+          var x = this.MIN_TIME / this.time;
+          var pow = Math.pow(2, Math.max(1, Math.ceil(Math.log(x) / Math.log(2))));
           count *= pow;
           if (count > this.MAX_COUNT) {
             throw new Error('Max count exceeded.  If this test uses a looping function, make sure the iteration loop is working properly.');
@@ -249,11 +257,11 @@
     },
 
     /**
-    * Get the number of operations per second for this test.
-    *
-    * @param normalize if true, iteration loop overhead taken into account
-    */
-    getHz: function(/**Boolean*/ normalize) {
+     * Get the number of operations per second for this test.
+     *
+     * @param normalize if true, iteration loop overhead taken into account
+     */
+    getHz: function (/**Boolean*/ normalize) {
       var p = this.period;
 
       // Adjust period based on the calibration test time
@@ -262,17 +270,17 @@
 
         // If the period is within 20% of the calibration time, then zero the
         // it out
-        p = p < cal.period*1.2 ? 0 : p - cal.period;
+        p = p < cal.period * 1.2 ? 0 : p - cal.period;
       }
 
-      return Math.round(1/p);
+      return Math.round(1 / p);
     },
 
     /**
-    * Get a friendly string describing the test
-    */
-    toString: function() {
-      return this.name + ' - '  + this.time/this.count + ' secs';
+     * Get a friendly string describing the test
+     */
+    toString: function () {
+      return this.name + ' - ' + this.time / this.count + ' secs';
     }
   });
 
@@ -396,15 +404,15 @@
     _queue: [],
 
     /**
-    * The parsed query parameters the current page URL.  This is provided as a
-    * convenience for test functions - it's not used by JSLitmus proper
-    */
+     * The parsed query parameters the current page URL.  This is provided as a
+     * convenience for test functions - it's not used by JSLitmus proper
+     */
     params: {},
 
     /**
      * Initialize
      */
-    _init: function() {
+    _init: function () {
       // Parse query params into JSLitmus.params[] hash
       var match = (location + '').match(/([^?#]*)(#.*)?$/);
       if (match) {
@@ -438,21 +446,21 @@
     /**
      * Set up the UI
      */
-    _setup: function() {
+    _setup: function () {
       var el = jsl.$('jslitmus_container');
       if (!el) document.body.appendChild(el = document.createElement('div'));
 
       el.innerHTML = MARKUP;
 
       // Render the UI for all our tests
-      for (var i=0; i < JSLitmus._tests.length; i++)
+      for (var i = 0; i < JSLitmus._tests.length; i++)
         JSLitmus.renderTest(JSLitmus._tests[i]);
     },
 
     /**
      * (Re)render all the test results
      */
-    renderAll: function() {
+    renderAll: function () {
       for (var i = 0; i < JSLitmus._tests.length; i++)
         JSLitmus.renderTest(JSLitmus._tests[i]);
       JSLitmus.renderChart();
@@ -461,20 +469,20 @@
     /**
      * (Re)render the chart graphics
      */
-    renderChart: function() {
+    renderChart: function () {
       var url = JSLitmus.chartUrl();
       jsl.$('chart_link').href = url;
       jsl.$('chart_image').src = url;
       jsl.$('chart').style.display = '';
 
       // Update the tiny URL
-      jsl.$('tiny_url').src = 'http://tinyurl.com/api-create.php?url='+escape(url);
+      jsl.$('tiny_url').src = 'http://tinyurl.com/api-create.php?url=' + escape(url);
     },
 
     /**
      * (Re)render the results for a specific test
      */
-    renderTest: function(test) {
+    renderTest: function (test) {
       // Make a new row if needed
       if (!test._row) {
         var trow = jsl.$('test_row_template');
@@ -483,7 +491,9 @@
         test._row = trow.cloneNode(true);
         test._row.style.display = '';
         test._row.id = '';
-        test._row.onclick = function() {JSLitmus._queueTest(test);};
+        test._row.onclick = function () {
+          JSLitmus._queueTest(test);
+        };
         test._row.title = 'Run ' + test.name + ' test';
         trow.parentNode.appendChild(test._row);
         test._row.cells[0].innerHTML = test.name;
@@ -495,10 +505,10 @@
       if (test.error) {
         cns.push('test_error');
         cell.innerHTML =
-        '<div class="error_head">' + test.error + '</div>' +
-        '<ul class="error_body"><li>' +
-          jsl.join(test.error, ': ', '</li><li>') +
-          '</li></ul>';
+            '<div class="error_head">' + test.error + '</div>' +
+                '<ul class="error_body"><li>' +
+                jsl.join(test.error, ': ', '</li><li>') +
+                '</li></ul>';
       } else {
         if (test.running) {
           cns.push('test_running');
@@ -521,7 +531,7 @@
     /**
      * Create a new test
      */
-    test: function(name, f) {
+    test: function (name, f) {
       // Create the Test object
       var test = new Test(name, f);
       JSLitmus._tests.push(test);
@@ -530,7 +540,7 @@
       test.onChange = JSLitmus.renderTest;
 
       // Run the next test if this one finished
-      test.onStop = function(test) {
+      test.onStop = function (test) {
         if (JSLitmus.onTestFinish) JSLitmus.onTestFinish(test);
         JSLitmus.currentTest = null;
         JSLitmus._nextTest();
@@ -543,7 +553,7 @@
     /**
      * Add all tests to the run queue
      */
-    runAll: function(e) {
+    runAll: function (e) {
       e = e || window.event;
       var reverse = e && e.shiftKey, len = JSLitmus._tests.length;
       for (var i = 0; i < len; i++) {
@@ -555,7 +565,7 @@
      * Remove all tests from the run queue.  The current test has to finish on
      * it's own though
      */
-    stop: function() {
+    stop: function () {
       while (JSLitmus._queue.length) {
         var test = JSLitmus._queue.shift();
         JSLitmus.renderTest(test);
@@ -565,7 +575,7 @@
     /**
      * Run the next test in the run queue
      */
-    _nextTest: function() {
+    _nextTest: function () {
       if (!JSLitmus.currentTest) {
         var test = JSLitmus._queue.shift();
         if (test) {
@@ -584,7 +594,7 @@
     /**
      * Add a test to the run queue
      */
-    _queueTest: function(test) {
+    _queueTest: function (test) {
       if (jsl.indexOf(JSLitmus._queue, test) >= 0) return;
       JSLitmus._queue.push(test);
       JSLitmus.renderTest(test);
@@ -594,20 +604,20 @@
     /**
      * Generate a Google Chart URL that shows the data for all tests
      */
-    chartUrl: function() {
+    chartUrl: function () {
       var n = JSLitmus._tests.length, markers = [], data = [];
       var d, min = 0, max = -1e10;
       var normalize = jsl.$('test_normalize').checked;
 
       // Gather test data
-      for (var i=0; i < JSLitmus._tests.length; i++) {
+      for (var i = 0; i < JSLitmus._tests.length; i++) {
         var test = JSLitmus._tests[i];
         if (test.count) {
           var hz = test.getHz(normalize);
           var v = hz != Infinity ? hz : 0;
           data.push(v);
-          markers.push('t' + jsl.escape(test.name + '(' + jsl.toLabel(hz)+ ')') + ',000000,0,' +
-            markers.length + ',10');
+          markers.push('t' + jsl.escape(test.name + '(' + jsl.toLabel(hz) + ')') + ',000000,0,' +
+              markers.length + ',10');
           max = Math.max(v, max);
         }
       }
@@ -625,7 +635,7 @@
 
       var w = 250, bw = 15;
       var bs = 5;
-      var h = markers.length*(bw + bs) + 30 + chart_title.length*20;
+      var h = markers.length * (bw + bs) + 30 + chart_title.length * 20;
 
       var params = {
         chtt: escape(chart_title.join('|')),

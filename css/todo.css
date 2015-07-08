@@ -21,6 +21,7 @@ body {
 .content {
   width: 480px;
 }
+
 .title {
   text-align: center;
   font-size: 100%;
@@ -34,6 +35,7 @@ body {
   padding: 0;
   outline: 0;
 }
+
 .new-todo {
   font-size: 24px;
   width: 465px;
@@ -50,12 +52,14 @@ ul {
   list-style: none;
   padding: 0;
 }
+
 li {
   position: relative;
   padding: 15px 20px 15px 0;
   border-bottom: 1px solid #ccc;
   cursor: pointer;
 }
+
 #todo-list .done .todo-content {
   text-decoration: line-through;
   color: #777;
@@ -93,6 +97,7 @@ li {
 #todo-stats .todo-count {
   float: left;
 }
+
 #todo-stats .todo-clear {
   margin-left: 200px;
 }
@@ -105,10 +110,10 @@ li {
   border-radius: 10px;
   padding: 0 6px;
 }
+
 .edit {
   display: none;
 }
-
 
 #todoApp .todo-list .editing {
   padding: 0;
@@ -137,7 +142,6 @@ li {
   padding: 5px;
   width: 97%;
 }
-
 
 .introduce {
   margin-top: 70px;
